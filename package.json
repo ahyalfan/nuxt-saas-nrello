@@ -10,8 +10,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@vueup/vue-quill": "^1.2.0",
+    "bcryptjs": "^2.4.3",
+    "next-auth": "^4.21.1",
     "nuxt": "^3.13.0",
+    "stripe": "^17.1.0",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "vuedraggable": "^4.1.0"
   }
 }
