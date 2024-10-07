@@ -1,4 +1,6 @@
 import { Schema, model, Document } from 'mongoose'
+import bcrypt from "bcryptjs";
+import { generateHash } from '~/utils/hash';
 
 export interface UserDocument extends Document {
     name: string;
@@ -42,7 +44,7 @@ const userSchema = new Schema<any>(
     //     type: String,
     //     default: null,
     //   },
-    //   status: {
+        //   status: {
     //     type: String,
     //     default: null,
     //   },
@@ -59,6 +61,29 @@ const userSchema = new Schema<any>(
     // },
   }
 );
+
+// Bagian ini adalah middleware Mongoose yang dijalankan sebelum dokumen disimpan ke database. Dalam hal ini, middleware dijalankan sebelum operasi save() pada model pengguna.
+// Tujuan: Untuk mengenkripsi password sebelum disimpan.
+// Fungsi:
+// if (!this.isModified("password")) return next();:
+// Memeriksa apakah field password telah diubah. Jika tidak ada perubahan, middleware melanjutkan ke fungsi berikutnya dengan memanggil next(), sehingga proses penyimpanan dapat dilanjutkan tanpa mengubah password.
+// this.password = await generateHash(this.password as string);:
+// Jika password telah diubah, password tersebut akan dienkripsi menggunakan fungsi generateHash() sebelum disimpan ke database. (Pastikan bahwa generateHash adalah fungsi yang sudah didefinisikan di tempat lain untuk melakukan hashing.)
+// next();:
+// Memanggil next() untuk melanjutkan ke operasi penyimpanan. Jika ada error dalam proses hashing, sebaiknya menangkap error tersebut dan memanggil next(error).
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  this.password = await generateHash(this.password as string);
+
+    // intinya ini akan melakukan ini sebelum menyimpan ke databse
+  next();
+});
+
+// method buat mbandingin password
+userSchema.methods.comparePassword = async function (password: string) {
+  return await bcrypt.compare(password, this.password);
+};
 
 // ini dia bikin model buat database di mongo db
 // menggunkan model dan schema user 

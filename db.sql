@@ -1,0 +1,1 @@
+db ("nrello").createCollection ("collection")
