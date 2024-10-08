@@ -112,7 +112,11 @@ const UserSchema = defineMongooseModel({
     name: {
         type: String,
         required: [true, "Name is required"],
-     },
+    },
+    stripeCustomerId: {
+      type: String,
+      default: null,
+    },
     },
   options: {
     timestamps: true,

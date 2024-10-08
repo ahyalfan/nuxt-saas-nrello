@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     SignupSchema.parse(data); // Ini akan melempar error jika validasi gagal
   } catch (e: any) {
     let errorsFilter: any[] = [];
-    e.errors.forEach( (err: any)  => {
+    e.errors.forEach((err: any) => {
       errorsFilter.push({
         field: err.path[0],
         message: err.message,
@@ -30,5 +30,6 @@ export default defineEventHandler(async (event) => {
     };
   }
   const user = await User.create(data);
-  return user;
+  // kita keluarkan isi user dalam bentuk object, dan buat passwordnya  undefined agar tidak di kembalikan di response
+  return {...user.toObject(), password: undefined};
 })
