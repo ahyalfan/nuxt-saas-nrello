@@ -1,16 +1,18 @@
 version: '3.8'
 
 services:
-  mongo:
+  mongodb:
     image: mongo:latest
     container_name: mongodb
     ports:
       - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-
+      MONGO_INITDB_DATABASE: nrello
+    volumes:
+      - mongo_data:/data/db
+      - ./init-scripts:/docker-entrypoint-initdb.d
 volumes:
   mongo_data:
+    name: mongo_data
