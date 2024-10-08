@@ -8,6 +8,13 @@ export default defineNuxtConfig({
     "@element-plus/nuxt",
     "@sidebase/nuxt-auth"
   ],
+  app: {
+    head: {
+      title: "nrello",
+      link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.svg' }]
+    }
+  },
 
   // ini runtime configuration yg akan bisa diakses di nuxtnya nanti
   runtimeConfig: {
