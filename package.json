@@ -24,6 +24,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "nuxt-server-utils": "^0.0.7",
     "zod": "^3.23.8"
   }
