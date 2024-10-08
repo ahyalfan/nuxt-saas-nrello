@@ -95,8 +95,19 @@
 import { defineMongooseModel } from '#nuxt/mongoose';
 import bcrypt from 'bcryptjs';
 import { generateHash } from '~/utils/hash';
+import { Document } from 'mongoose';
 
-const UserSchema = defineMongooseModel({
+class IUser extends Document {
+  email!: string;
+  password!: string;
+  name!: string;
+  stripeCustomerId: string | null = null;
+  async comparePassword(password: string): Promise<boolean> {
+    return await bcrypt.compare(password, this.password);
+  }
+}
+
+const UserSchema = defineMongooseModel<IUser>({
   name: 'User',
   schema: {
     email: {
@@ -129,5 +140,6 @@ const UserSchema = defineMongooseModel({
     });
   },
 });
+
 
 export const User = UserSchema;
