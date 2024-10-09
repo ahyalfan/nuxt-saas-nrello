@@ -3,7 +3,7 @@
 </script>
 <template>
   <div>
-    home
+    Dashboard
   </div>
 </template>
 
