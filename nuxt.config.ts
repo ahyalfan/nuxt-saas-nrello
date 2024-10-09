@@ -2,12 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: "2024-10-06",
-  modules: [
-    "@nuxtjs/tailwindcss",
-    "nuxt-mongoose",
-    "@element-plus/nuxt",
-    "@sidebase/nuxt-auth"
-  ],
+  modules: ["@nuxtjs/tailwindcss", "nuxt-mongoose", "@element-plus/nuxt", "@sidebase/nuxt-auth", "@nuxtjs/color-mode"],
   app: {
     head: {
       title: "nrello",
@@ -51,7 +46,9 @@ export default defineNuxtConfig({
   //       codeChallengeMethod: '',
   //     },
   //   },
-  
+  colorMode: {
+    preference: 'Light',
+  },
   nuxtServerUtils: {
     mongodbUri: process.env.MONGODB_URI,
   },
