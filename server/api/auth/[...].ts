@@ -15,6 +15,11 @@ async function getUser(id: string) {
 export default NuxtAuthHandler({
   // secret: Mengambil rahasia untuk menandatangani token dari konfigurasi runtime. Ini penting untuk menjaga keamanan session JWT.
   secret: useRuntimeConfig().auth.secret,
+
+  // pages ini artinya jika belum login maka akan diredireckan ke auth/signin
+  pages: {
+    signIn: "/auth/signin",
+  },
   providers: [
     // bisa pakai github, dll
     // {
@@ -47,14 +52,14 @@ export default NuxtAuthHandler({
         password: string,
       }) {
         // logic authentication
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({ email: credentials.email }).select("+password");
 
         if (!user) {
           return null;
         }
 
         const isValid = await user.comparePassword(credentials.password);
-
+        console.log(isValid);
         if (!isValid) {
           return null;
         }

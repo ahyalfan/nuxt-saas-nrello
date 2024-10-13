@@ -97,6 +97,7 @@ import bcrypt from 'bcryptjs';
 import { generateHash } from '~/utils/hash';
 import { Document } from 'mongoose';
 
+// ini boleh pakai interface
 class IUser extends Document {
   email!: string;
   password!: string;
@@ -138,6 +139,10 @@ const UserSchema = defineMongooseModel<IUser>({
       this.password = await generateHash(this.password);
       next();
     });
+
+    schema.methods.comparePassword = async function (password: string): Promise<boolean> {
+      return await bcrypt.compare(password, this.password);
+    };
   },
 });
 
