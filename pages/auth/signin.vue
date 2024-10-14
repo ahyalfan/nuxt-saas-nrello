@@ -10,6 +10,9 @@ const form = reactive({
   email: "",
   password: "",
 });
+
+const loading = ref(false);
+
 const errors = reactive({
   e: false,
   email: {
@@ -22,28 +25,41 @@ const errors = reactive({
   },
 });
 
+const { signIn } = useAuth();
+
 const handleSubmit = async () => {
   try {
-    errors.email.message = ""; // Reset errors
-    errors.password.message = ""; // Reset errors
+    loading.value = true; // Show loading spinner
     await SigninSchema.parseAsync(form); // Validasi
     // Jika validasi berhasil, lakukan proses pendaftaran
     console.log("Form data is valid!", form);
-  } catch (error: any) {
-    if (error instanceof z.ZodError) {
-      error.errors.forEach((err: any) => {
-        if (err.path[0] == "email") {
-          errors.email.message = err.message;
-          errors.email.show = true;
-        }
-        if (err.path[0] == "password") {
-          errors.password.message = err.message;
-          errors.password.show = true;
-        }
-        errors.e = true;
-        // masih sapai disini dan untuk realtime validasi juga belum.
+    const res: any = await signIn("credentials", {
+      email: form.email,
+      password: form.password,
+      redirect: false,
+    });
+    if (!res.error) {
+      useRouter().push("/");
+    } else {
+      ElNotification({
+        title: "Error",
+        message: "sign in failed, please try again",
+        type: "error",
+        position: "top-left",
       });
     }
+  } catch (error: any) {
+    console.error("Form data is invalid:", error);
+    ElNotification({
+      title: "Error",
+      message: "Form data is invalid",
+      type: "error",
+      position: "top-left",
+    });
+  } finally {
+    form.email = "";
+    form.password = "";
+    loading.value = false; // Hide loading spinner
   }
 };
 
@@ -82,9 +98,14 @@ watch(form, async () => {
   <WrapperAuth title="Sign In to your account">
     <template #header>
       <span class="text-sm mr-px">Don't have an account?</span>
-      <NuxtLink to="/auth/signup" class="text-primary-500"> Sign Up </NuxtLink>
+      <NuxtLink to="/auth/signup" class="text-green-700"> Sign Up </NuxtLink>
     </template>
-    <el-form :model="form" label-width="auto" @submit.prevent style="max-width: 600px">
+    <el-form
+      :model="form"
+      label-width="auto"
+      @submit.prevent
+      style="max-width: 600px; min-width: 100px"
+    >
       <el-form-item label="email" label-position="top" class="w-full">
         <el-input v-model="form.email" />
         <div v-if="errors.email.show" class="text-red-500">
@@ -98,7 +119,11 @@ watch(form, async () => {
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleSubmit" :disabled="errors.e"
+        <el-button
+          type="primary"
+          @click="handleSubmit"
+          :disabled="errors.e"
+          :loading="loading"
           >Login</el-button
         >
       </el-form-item>
