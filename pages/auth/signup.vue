@@ -14,6 +14,8 @@ const form = reactive({
   passwordConfirm: "",
 });
 
+const loading = ref(false);
+
 const formRules = reactive({
   name: [
     {
@@ -40,17 +42,22 @@ const formRules = reactive({
       message: "Please input password",
       trigger: "blur",
     },
+    {
+      min: 8,
+      message: "Password must be at least 8 characters",
+      trigger: ["blur", "change"],
+    },
   ],
   passwordConfirm: [
     {
-      // required: true,
+      required: true,
       message: "Please input password again",
       trigger: "blur",
+    },
+    {
+      message: "Two inputs don't match!",
+      trigger: "blur",
       validator: (rule: any, value: any, callback: any) => {
-        console.log(value === form.password);
-        console.log(value);
-        console.log("value" + value);
-        console.log(form.password);
         if (value === "") {
           callback(new Error("Please input the password again"));
         } else if (value !== form.password) {
@@ -63,15 +70,35 @@ const formRules = reactive({
   ],
 });
 
-const handleSubmit = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate((valid: any) => {
-    if (valid) {
-      console.log("submit!");
-    } else {
-      console.log("error submit!");
-    }
-  });
+const handleSubmit = async (formEl: FormInstance | undefined) => {
+  try {
+    loading.value = true;
+    await useFetch("/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify(form), // Mengubah form menjadi string JSON
+      headers: {
+        "Content-Type": "application/json", // Menyatakan bahwa data yang dikirim adalah JSON
+      },
+    });
+    ElNotification({
+      title: "Account created",
+      message: "Your account has been created successfully",
+      type: "success",
+      position: "top-left",
+    });
+    await useRouter().push({
+      name: "auth-signin",
+    });
+  } catch (error) {
+    ElNotification({
+      title: "Error",
+      message: "Form data is invalid",
+      type: "error",
+      position: "top-left",
+    });
+  } finally {
+    loading.value = false;
+  }
 };
 </script>
 <template>
@@ -84,7 +111,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
     <el-form
       ref="formRef"
       :model="form"
-      label-width="auto"
+      label-width="1px"
       @submit.prevent
       style="max-width: 600px; min-width: 100px"
     >
@@ -117,13 +144,13 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
       <el-form-item
         label="Confirm Password"
         label-position="top"
-        prop="password confirm"
+        prop="passwordConfirm"
         :rules="formRules.passwordConfirm"
       >
         <el-input type="password" placeholder="********" v-model="form.passwordConfirm" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :loading="false" @click="handleSubmit(formRef)"
+        <el-button type="primary" :loading="loading" @click="handleSubmit(formRef)"
           >Sign Up</el-button
         >
       </el-form-item>
