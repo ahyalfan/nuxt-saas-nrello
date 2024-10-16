@@ -71,34 +71,46 @@ const formRules = reactive({
 });
 
 const handleSubmit = async (formEl: FormInstance | undefined) => {
-  try {
-    loading.value = true;
-    await useFetch("/api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(form), // Mengubah form menjadi string JSON
-      headers: {
-        "Content-Type": "application/json", // Menyatakan bahwa data yang dikirim adalah JSON
-      },
-    });
-    ElNotification({
-      title: "Account created",
-      message: "Your account has been created successfully",
-      type: "success",
-      position: "top-left",
-    });
-    await useRouter().push({
-      name: "auth-signin",
-    });
-  } catch (error) {
-    ElNotification({
-      title: "Error",
-      message: "Form data is invalid",
-      type: "error",
-      position: "top-left",
-    });
-  } finally {
-    loading.value = false;
-  }
+  if (!formEl) return;
+  formEl.validate(async (valid: any) => {
+    if (valid) {
+      try {
+        loading.value = true;
+        const res = await useFetch("/api/auth/signup", {
+          method: "POST",
+          body: JSON.stringify(form), // Mengubah form menjadi string JSON
+          headers: {
+            "Content-Type": "application/json", // Menyatakan bahwa data yang dikirim adalah JSON
+          },
+        });
+        ElNotification({
+          title: "Account created",
+          message: "Your account has been created successfully",
+          type: "success",
+          position: "top-left",
+        });
+        await useRouter().push({
+          name: "auth-signin",
+        });
+      } catch (error) {
+        ElNotification({
+          title: "Error",
+          message: "Form data is invalid",
+          type: "error",
+          position: "top-left",
+        });
+      } finally {
+        loading.value = false;
+      }
+    } else {
+      ElNotification({
+        title: "Error",
+        message: "Form data is invalid",
+        type: "error",
+        position: "top-left",
+      });
+    }
+  });
 };
 </script>
 <template>
