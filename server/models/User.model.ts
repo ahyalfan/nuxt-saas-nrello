@@ -98,14 +98,12 @@ import { generateHash } from '~/utils/hash';
 import { Document } from 'mongoose';
 
 // ini boleh pakai interface
-class IUser extends Document {
-  email!: string;
-  password!: string;
-  name!: string;
-  stripeCustomerId: string | null = null;
-  async comparePassword(password: string): Promise<boolean> {
-    return await bcrypt.compare(password, this.password);
-  }
+export interface IUser extends Document {
+  email: string;
+  password: string;
+  name: string;
+  stripeCustomerId: string | null;
+  comparePassword(password: string): Promise<boolean>
 }
 
 const UserSchema = defineMongooseModel<IUser>({
