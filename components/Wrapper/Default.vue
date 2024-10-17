@@ -29,7 +29,7 @@ async function handleSignout() {
 </script>
 <template>
   <div>
-    <header class="p-2 px-12 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
+    <header class="p-2 lg:px-12 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
       <el-container>
         <div class="w-full flex justify-between">
           <NuxtLink to="/">
@@ -80,7 +80,7 @@ async function handleSignout() {
       </el-container>
     </header>
 
-    <main class="px-8">
+    <main class="lg:px-8">
       <el-container>
         <el-main>
           <slot />
