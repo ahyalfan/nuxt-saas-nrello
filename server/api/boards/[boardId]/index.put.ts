@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
   const user = event.context.user;
 
   const body = await readBody(event);
-
   try {
     BoardSchema.parse(body); // Ini akan melempar error jika validasi gagal
   } catch (e: any) {
@@ -17,6 +16,7 @@ export default defineEventHandler(async (event) => {
         message: err.message,
       });
     });
+    console.log(errorsFilter)
     return {
       statusCode: 400,
       body: {
@@ -25,13 +25,11 @@ export default defineEventHandler(async (event) => {
       },
     };
   }
-
   const board = await Board.updateOne(
     { _id: boardId, owner: user._id },
     {
       $set: body,
     }
   );
-
   return board;
 });
