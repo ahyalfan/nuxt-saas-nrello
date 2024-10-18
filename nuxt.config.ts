@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: "2024-10-06",
-  modules: ["@nuxtjs/tailwindcss", "nuxt-mongoose", "@element-plus/nuxt", "@sidebase/nuxt-auth", "@nuxtjs/color-mode"],
+  modules: ["@nuxtjs/tailwindcss", "nuxt-mongoose", "@element-plus/nuxt", "@sidebase/nuxt-auth", "@nuxtjs/color-mode", "@nuxt/image"],
   app: {
     head: {
       title: "nrello",
