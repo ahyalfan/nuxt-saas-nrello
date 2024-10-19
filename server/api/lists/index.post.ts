@@ -37,6 +37,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  // menambahkan data di database boardnya
   await Board.findOneAndUpdate(
     {
       _id: data.board,
