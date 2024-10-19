@@ -1,5 +1,5 @@
 import { Board } from "~/server/models/Board.model";
-// import { List } from "~/server/models/List";
+import { List } from "~/server/models/List.model";
 
 export default defineEventHandler(async (event) => {
   const user = event.context.user;
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   const board = await Board.findOne({ _id: boardId, owner: user._id }).populate(
     {
       path: "lists",
-      // model: List,
+      model: List,
     }
   );
 
