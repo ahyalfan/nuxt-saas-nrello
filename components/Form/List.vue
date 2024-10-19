@@ -78,6 +78,7 @@ const handleSubmit = async (formEl: FormInstance | undefined) => {
           position: "top-left",
         });
         props.onCreate?.();
+        formEl?.resetFields();
       } catch (error) {
         ElNotification({
           title: "Error",

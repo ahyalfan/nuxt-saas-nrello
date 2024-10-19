@@ -73,8 +73,7 @@ const handleSubmit = async (formEl: FormInstance | undefined) => {
         }
 
         porps.onCreate?.(data);
-        formState.name = undefined;
-        formState.coverImage = undefined;
+        formEl?.resetFields();
         ElNotification({
           title: "Board created",
           message: "Your board has been created",
