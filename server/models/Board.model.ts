@@ -1,10 +1,11 @@
 import { defineMongooseModel } from '#nuxt/mongoose';
 import { Schema, model } from "mongoose";
 import type { Document } from "mongoose";
+import { ListDocument } from './List.model';
 
 export interface BoardDocument extends Document {
   name: string;
-  lists: string[];
+  lists: string[] | ListDocument[];
   owner: string;
   coverImage: string;
 }
