@@ -57,7 +57,6 @@ const handleSubmit = async () => {
       position: "top-left",
     });
   } finally {
-    form.email = "";
     form.password = "";
     loading.value = false; // Hide loading spinner
   }
@@ -102,7 +101,7 @@ watch(form, async () => {
     </template>
     <el-form
       :model="form"
-      label-width="auto"
+      label-width="1px"
       @submit.prevent
       style="max-width: 600px; min-width: 100px"
     >

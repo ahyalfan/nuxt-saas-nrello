@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { BoardDocument } from "~/server/models/Board.model";
 import { EditPen, Delete } from "@element-plus/icons-vue";
+import type Boardid from "~/pages/[boardId].vue";
 interface Props {
   board: BoardDocument;
   onEdit?: (board: BoardDocument) => void;
@@ -40,13 +41,14 @@ const actions = ref([
     </div>
 
     <div class="flex items-center gap-2 absolute left-0 z-10 top-0 py-2 px-4">
-      <!-- <NuxtLink :to="{
+      <NuxtLink
+        :to="{
           name: 'boardId',
           params: { boardId: board._id },
-        }" class="block font-semibold text-white">{{ board.name }}
-      </NuxtLink> -->
-
-      <NuxtLink to="/" class="block font-semibold text-white">{{ board.name }} </NuxtLink>
+        }"
+        class="block font-semibold text-white"
+        >{{ board.name }}
+      </NuxtLink>
 
       <!-- dropdown -->
       <el-dropdown trigger="click">

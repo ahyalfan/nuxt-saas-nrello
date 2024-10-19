@@ -16,6 +16,17 @@ if (error.value) {
 
 const showCreateBoard = ref(false);
 const selectedBoard = ref<BoardDocument | undefined>();
+
+async function handleEdit(board: BoardDocument) {
+  selectedBoard.value = board;
+  showCreateBoard.value = true;
+}
+
+watchEffect(() => {
+  if (!showCreateBoard.value) {
+    selectedBoard.value = undefined;
+  }
+});
 </script>
 <template>
   <WrapperDefault>
@@ -45,7 +56,7 @@ const selectedBoard = ref<BoardDocument | undefined>();
           () => {
             showCreateBoard = false;
             selectedBoard = undefined;
-            refresh();
+            refresh(); // refresh dari boardsnya
           }
         "
       />
@@ -59,6 +70,7 @@ const selectedBoard = ref<BoardDocument | undefined>();
         :board="board"
         :on-edit="handleEdit"
       ></BoardCard>
+      <!-- <BoardCard v-if="data.length === 0" :key="0" :board="{ _id: '', title: 'No boards found' }" /> -->
     </section>
     <!-- ./ List of boards -->
   </WrapperDefault>

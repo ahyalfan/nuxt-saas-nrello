@@ -37,6 +37,25 @@ const handleSubmit = async (formEl: FormInstance | undefined) => {
       try {
         isLoading.value = true;
 
+        if (porps.type === "update" && porps.initialData?._id) {
+          if (formState.coverImage == null || formState.coverImage == undefined) {
+            formState.coverImage = "null";
+          }
+          const updatedBoard = await useFetch(`/api/boards/${porps.initialData._id}`, {
+            method: "PUT",
+            body: JSON.stringify(formState),
+            watch: false,
+          });
+          porps.onUpdate?.(updatedBoard);
+          ElNotification({
+            title: "Board updated",
+            message: "Your board has been updated",
+            type: "success",
+            position: "top-left",
+          });
+          return;
+        }
+
         const { data, error } = await useFetch("/api/boards", {
           method: "POST",
           body: JSON.stringify(formState),
@@ -54,6 +73,8 @@ const handleSubmit = async (formEl: FormInstance | undefined) => {
         }
 
         porps.onCreate?.(data);
+        formState.name = undefined;
+        formState.coverImage = undefined;
         ElNotification({
           title: "Board created",
           message: "Your board has been created",
@@ -112,10 +133,10 @@ watchEffect(() => {
         <el-input v-model="formState.name" placeholder="Board Name" />
       </el-form-item>
       <el-form-item label="Cover Image" label-position="top" class="w-full">
-        <el-input v-model="formState.coverImage" />
+        <ImagePicker v-model="formState.coverImage" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :loading="loading" @click="handleSubmit(formRef)">
+        <el-button type="primary" :loading="isLoading" @click="handleSubmit(formRef)">
           {{ type === "create" ? "Create board" : "Update board" }}
         </el-button>
       </el-form-item>
