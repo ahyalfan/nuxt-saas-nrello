@@ -1,5 +1,5 @@
 import { Board } from "~/server/models/Board.model";
-// import { List } from "~/server/models/List";
+import { List } from "~/server/models/List.model";
 
 export default defineEventHandler(async (event) => {
   // ambil path router id
@@ -19,10 +19,10 @@ export default defineEventHandler(async (event) => {
   }
 
   // Delete all lists associated with the board
-  // await List.deleteMany({
-  //   board: deletedBoard._id,
-  //   owner: user._id,
-  // });
+  await List.deleteMany({
+    board: deletedBoard._id,
+    owner: user._id,
+  });
 
   event.node.res.statusCode = 204;
 
