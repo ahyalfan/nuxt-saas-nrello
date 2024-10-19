@@ -11,14 +11,14 @@ const dropdownItems = ref([
 
   {
     label: "Billing",
-    icon: Money,
+    icon: markRaw(Money),
     divided: true,
     // click: accessPortal,
   },
 
   {
     label: "Sign out",
-    icon: CloseBold,
+    icon: markRaw(CloseBold),
     divided: true,
     click: handleSignout,
   },
