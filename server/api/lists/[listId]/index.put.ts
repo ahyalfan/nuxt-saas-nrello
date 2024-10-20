@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
         message: err.message,
       });
     });
+    console.log(errorsFilter)
     return {
       statusCode: 400,
       body: {

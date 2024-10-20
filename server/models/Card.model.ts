@@ -26,14 +26,14 @@ const cardSchema = defineMongooseModel<CardDocument>({
             default: [],
         },
         owner: {
-        type: Schema.Types.ObjectId as any,
-        ref: "User",
-        required: [true, "Owner is required"],
+            type: Schema.Types.ObjectId as any,
+            ref: "User",
+            required: [true, "Owner is required"],
         },
         list: {
-        type: Schema.Types.ObjectId as any,
-        ref: "List",
-        required: [true, "List is required"],
+            type: Schema.Types.ObjectId as any,
+            ref: "List",
+            required: [true, "List is required"],
         },
     },
     options: {

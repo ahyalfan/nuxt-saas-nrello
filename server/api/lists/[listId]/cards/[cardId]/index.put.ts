@@ -4,9 +4,9 @@ import { Card } from "~/server/models/Card.model";
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const user = event.context.user;
-  // const listId = getRouterParam(event, "listId");
+  const listId = getRouterParam(event, "listId");
   const cardId = getRouterParam(event, "cardId");
-  
+
   try {
     CardSchema.parse(body); // Ini akan melempar error jika validasi gagal
   } catch (e: any) {
@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
         message: err.message,
       });
     });
+    console.log(errorsFilter)
     return {
       statusCode: 400,
       body: {
@@ -31,10 +32,9 @@ export default defineEventHandler(async (event) => {
       _id: cardId,
       owner: user._id,
     },
-    body,
+    { $set:body },
     { new: true }
   );
-
   if (!updatedCard) {
     throw createError({
       statusCode: 404,

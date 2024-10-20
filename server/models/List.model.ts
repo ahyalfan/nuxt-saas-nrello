@@ -1,10 +1,11 @@
 import { defineMongooseModel } from '#nuxt/mongoose';
 import { Schema, model } from "mongoose";
 import type { Document } from "mongoose";
+import { CardDocument } from './Card.model';
 
 export interface ListDocument extends Document {
  name: string;
-  cards: string[];
+  cards: string[] | CardDocument[];
   board: string;
   owner: string;
 }
