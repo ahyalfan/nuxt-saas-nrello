@@ -53,7 +53,7 @@ const actions = ref([
       <!-- dropdown -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
-          <IconSetting />
+          <IconSetting class="w-5 text-white" />
         </span>
         <template #dropdown>
           <el-dropdown-menu>
