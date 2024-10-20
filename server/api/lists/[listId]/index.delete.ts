@@ -1,5 +1,5 @@
 import { Board } from "~/server/models/Board.model";
-// import { Card } from "~/server/models/Card";
+import { Card } from "~/server/models/Card.model";
 import { List } from "~/server/models/List.model";
 
 export default defineEventHandler(async (event) => {
@@ -24,9 +24,9 @@ export default defineEventHandler(async (event) => {
   });
 
   // Remove the cards from the list
-  // await Card.deleteMany({
-  //   list: list._id,
-  // });
+  await Card.deleteMany({
+    list: list._id,
+  });
 
   event.node.res.statusCode = 204;
 
