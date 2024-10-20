@@ -4,13 +4,10 @@
 export const useList = () => {
   async function destroy(id: string, onDestroy?: () => void) {
     try {
-      async () => {
         await useFetch(`/api/lists/${id}`, {
           method: "DELETE",
         });
         onDestroy?.();
-      }
-
     } catch (e: any) {
       ElNotification({
         title: "Error",
