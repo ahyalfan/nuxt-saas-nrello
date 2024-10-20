@@ -44,11 +44,17 @@ const lists = computed(() => data.value?.lists as ListDocument[]);
       </el-button>
     </template>
 
-    <h1 class="tex-3xl font-semibold mb-4 inline-block">
+    <h1 class="tex-3xl text-white font-semibold mb-4 inline-block">
       {{ data!.name }}
     </h1>
 
-    <!-- <ListContainer :lists="lists" :board-id="(boardId as string)" /> -->
+    <!-- list container -->
+    <ListContainer
+      :lists="lists"
+      :board-id="(boardId as string)"
+      :boardName="data!.name"
+    />
+    <!-- end list container -->
 
     <el-drawer
       size="360"
