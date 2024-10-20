@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import { BoardDocument } from "~/server/models/Board.model";
 import { EditPen, Delete } from "@element-plus/icons-vue";
-import type Boardid from "~/pages/[boardId].vue";
 interface Props {
   board: BoardDocument;
   onEdit?: (board: BoardDocument) => void;
 }
 const props = defineProps<Props>();
 
-// const { destroy } = useBoard();
+const { destroy } = useBoard();
 const refreshBoards = inject("refresh-boards") as () => void;
 
 const actions = ref([
@@ -23,7 +22,7 @@ const actions = ref([
     divided: true,
     label: "Delete",
     icon: markRaw(Delete),
-    // click: () => destroy(props.board._id, refreshBoards),
+    click: () => destroy(props.board._id, refreshBoards),
   },
 ]);
 </script>
