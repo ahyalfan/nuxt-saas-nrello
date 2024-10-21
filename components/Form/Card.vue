@@ -275,7 +275,7 @@ const uploadImage = async () => {
           circle
         />
         <el-button type="primary" :loading="isLoading" @click="handleSubmit(formRef)">
-          {{ type === "create" ? "Create board" : "Update board" }}
+          {{ type === "create" ? "Create card" : "Update card" }}
         </el-button>
       </el-form-item>
     </el-form>

@@ -2,6 +2,7 @@
 import type { IUser } from "~/server/models/User.model";
 const { data, signOut } = useAuth();
 import { Money, CloseBold } from "@element-plus/icons-vue";
+const dialogVisible = ref(false);
 const dropdownItems = ref([
   {
     label: "Profile",
@@ -13,7 +14,7 @@ const dropdownItems = ref([
     label: "Billing",
     icon: markRaw(Money),
     divided: true,
-    // click: accessPortal,
+    click: openDialog,
   },
 
   {
@@ -26,9 +27,26 @@ const dropdownItems = ref([
 async function handleSignout() {
   await signOut();
 }
+async function openDialog() {
+  dialogVisible.value = true;
+}
 </script>
 <template>
   <div>
+    <el-dialog v-model="dialogVisible" title="Message" width="500">
+      <span class="text-slate-500"
+        >Billing features will be available in the future along with exclusive features,
+        so just wait for the information.</span
+      >
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="dialogVisible = false"> Cancel </el-button>
+          <el-button type="success" @click="dialogVisible = false"
+            ><a href="https://saweria.co/ahyalfan">Donate Me</a>
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
     <header class="p-2 lg:px-12 border-b dark:border-gray-700 bg-white dark:bg-gray-800">
       <el-container>
         <div class="w-full flex justify-between">
