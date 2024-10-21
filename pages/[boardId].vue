@@ -25,6 +25,13 @@ useHead({
   title: data.value.name,
 });
 
+onMounted(() => {
+  ElMessage({
+    message: "Warning, The image is only temporary, so check it regularly.",
+    type: "warning",
+  });
+});
+
 const coverImage = computed(() => data.value?.coverImage || "");
 const lists = computed(() => data.value?.lists as ListDocument[]);
 </script>

@@ -27,6 +27,12 @@ watchEffect(() => {
     selectedBoard.value = undefined;
   }
 });
+onMounted(() => {
+  ElMessage({
+    message: "Warning, The image is only temporary, so check it regularly.",
+    type: "warning",
+  });
+});
 </script>
 <template>
   <WrapperDefault>
