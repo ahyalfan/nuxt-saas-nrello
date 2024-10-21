@@ -23,6 +23,7 @@ export default defineNuxtConfig({
       pixabayApiKey: process.env.PIXABAY_API_KEY,
       priceId: process.env.STRIPE_PRICE_ID,
       stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
+      imgurClientId: process.env.IMGUR_CLIENT_ID
     },
   },
 
