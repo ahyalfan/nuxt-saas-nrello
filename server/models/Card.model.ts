@@ -22,7 +22,7 @@ const cardSchema = defineMongooseModel<CardDocument>({
             default: null,
         },
         imgUrl: {
-            type: [Schema.Types.ObjectId as any],
+            type: [String],
             default: [],
         },
         owner: {
