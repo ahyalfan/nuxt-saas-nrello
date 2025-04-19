@@ -235,6 +235,10 @@ const uploadImage = async () => {
       </el-form-item>
       <el-form-item label="Description" label-position="top" class="w-full">
         <ClientOnly>
+        <!-- kenapa in bisa kita pakai, ini karena kita sudah masukan component QuilEditor dalam vueapp kita -->
+        <!-- lewat plugin yang sudah disiapkan di custom plugin bisa dicek -->
+        <!-- kenapa perlu bukus ClientOnly, ini karena plugin kita tidak di set global tapi hanya client saja -->
+        <!-- seusai nama file, .client.ts atau .ts langsung -->
           <QuillEditor
             v-model:content="formState.description"
             theme="snow"
